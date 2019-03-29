@@ -15,14 +15,25 @@ public class UserServiceImpl implements UserService {
 		return udao.insertUser(user);
 	}
 
+	@Override
+	public boolean loginUser(Map<String, String> login) {
+		if (udao.selectUserByID(login) != null) {
+			if (udao.selectUserByID(login).get("uiId").equals(login.get("uiId"))) {
+				if (udao.selectUserByID(login).get("uiPwd").equals(login.get("uiPwd"))) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
 	public static void main(String[] args) {
 		UserService us = new UserServiceImpl();
+		
 		Map<String, String> map = new HashMap<>();
-		map.put("uiId", "id test4");
-		map.put("uiPwd", "pwd test4");
-		map.put("uiName", "name test4");
-		map.put("uiEmail", "email test4");
-			
-		System.out.println(us.insertUser(map));
+		map.put("uiId", "osfu");
+		map.put("uiPwd", "123456789");
+		
+		System.out.println(us.loginUser(map));
 	}
 }

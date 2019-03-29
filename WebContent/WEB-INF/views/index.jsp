@@ -7,6 +7,7 @@
 <title>보편적인 영화정보</title>
 </head>
 <body>
+<form method="post" action="/user">
 <table border="1">
 	<tr>
 		<th>아이디</th>
@@ -20,6 +21,8 @@
 		<td colspan="2"><button>로그인</button></td>
 	</tr>
 </table>
+<input type="hidden" name="cmd" value="login">
 <a href="/views/user/join">회원가입</a>
+</form>
 </body>
 </html>

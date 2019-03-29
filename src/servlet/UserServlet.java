@@ -37,13 +37,29 @@ public class UserServlet extends HttpServlet {
 			user.put("uiEmail", uiEmail);
 			if (user.get("uiId") != null && user.get("uiPwd") != null && user.get("uiName") != null && user.get("uiEmail") != null) {
 				if (us.insertUser(user) == 1) {
-					request.setAttribute("msg", "회원가입에 성공하셨습니다.");
-					request.setAttribute("url", "/");
-					RequestDispatcher rd = request.getRequestDispatcher("/views/msg/result");
-					rd.forward(request, response);					
-					return;
+					request.setAttribute("msg", "회원가입에 성공하셨습니다."); // 본래 서비스 영역
+					request.setAttribute("url", "/"); // 본래 서비스 영역
+					
 				}
+				RequestDispatcher rd = request.getRequestDispatcher("/views/msg/result");
+				rd.forward(request, response);					
+				return;
 			}
+		}else if ("login".equals(cmd)) {
+			String uiId = request.getParameter("ui_id");
+			String uiPwd = request.getParameter("ui_pwd");
+			Map<String, String> login = new HashMap<>();
+			login.put("uiId", uiId);
+			login.put("uiPwd", uiPwd);
+			request.setAttribute("msg", "로그인에 실패하셨습니다."); // 본래 서비스 영역
+			request.setAttribute("url", "/"); // 본래 서비스 영역
+			if (us.loginUser(login)) {
+				request.setAttribute("msg", "로그인에 성공하셨습니다."); // 본래 서비스 영역
+				request.setAttribute("url", "/"); // 본래 서비스 영역
+			}
+			RequestDispatcher rd = request.getRequestDispatcher("/views/msg/result");
+			rd.forward(request, response);					
+			return;
 		}
 	}
 
