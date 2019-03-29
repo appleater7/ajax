@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<script>
+	var arr = [];
+	var m = {};
+	for (var i = 0; i <= 2; i++) {
+		m['key'] = i; // 스트럭쳐에 m['key'] = value;
+		m.key = i; // 두가지 다 똑같다. 스트럭쳐에 데이터를 대입하는 방법
+		arr[i] = m;
+	}
+	console.log(arr);
+	var jsonStr = JSON.stringify(arr);
+	console.log(jsonStr);
+</script>
+</body>
+</html>
