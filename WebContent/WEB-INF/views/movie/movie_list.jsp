@@ -9,6 +9,11 @@
 <title>보편적인 영화정보 - 개봉 리스트</title>
 </head>
 <body>
+<script>
+function goPage(miNum) {
+	location.href="/movie/" + miNum;	
+}
+</script>
 	<table border="1">
 		<tr>
 			<th>번호</th>
@@ -24,7 +29,8 @@
 			</tr>
 		</c:if>
 		<c:forEach items="${list}" var="movie">
-			<tr>
+			<tr style="cursor:pointer" onmouseover="this.style.backgroundColor='#30E87C'"
+			onmouseout="this.style.backgroundColor=''" onclick="goPage('${movie.miNum}')">
 				<td>${movie.miNum}</td>
 				<td>${movie.miName}</td>
 				<td>${movie.miYear}</td>

@@ -13,54 +13,65 @@ import javax.servlet.http.HttpSession;
 
 import service.MovieService;
 import service.Impl.MovieServiceImpl;
+import utils.Command;
 
 public class MovieServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private MovieService ms = new MovieServiceImpl();
- 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String uri = request.getRequestURI();
-		int idx = uri.lastIndexOf("/");
-		if (idx == 0) {
-			throw new ServletException("원하시는 서비스가 부정확합니다."); 
-			// 개발자의 실수가 아닌 사용자의 실수니까 알려줄것
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		String cmd = Command.getCmd(request);
+		if ("list".equals(cmd)) {
+			request.setAttribute("list", ms.selectMovieList());
+			RequestDispatcher rd = request.getRequestDispatcher("/views/movie/movie_list");
+			rd.forward(request, response);
 		} else {
-			String cmd = uri.substring(idx+1);
-			if("list".equals(cmd)) {
-				request.setAttribute("list", ms.selectMovieList());
-				RequestDispatcher rd = request.getRequestDispatcher("/views/movie/movie_list");
+			try {
+				int miNum = Integer.parseInt(cmd);
+				System.out.println(miNum);
+				request.setAttribute("movie", ms.selectMovieByMiNum(miNum));
+				RequestDispatcher rd = request.getRequestDispatcher("/views/movie/view");
 				rd.forward(request, response);
+			} catch (Exception e) {
+				throw new ServletException("올바른 상세조회 값이 아닙니다.");
 			}
 		}
 	}
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
-		String uri = request.getRequestURI();
-		int idx = uri.lastIndexOf("/");
-		String cmd = uri.substring(idx+1);
-		if("insert".equals(cmd)) {
+		String cmd = Command.getCmd(request);
+		if ("insert".equals(cmd)) {
 			HttpSession hs = request.getSession();
-			if (hs.getAttribute("user")==null) {
-				request.setAttribute("msg", "로그인하세요.");
-				request.setAttribute("url", "/");
-				RequestDispatcher rd = request.getRequestDispatcher("/views/msg/result");
-				rd.forward(request, response);
+			if (hs.getAttribute("user") == null) {
+				Command.goResultPage(request, response, "/", "로그인하세요");
 				return;
 			}
-			Map<String, String> movie = new HashMap<>();
-			movie.put("miName", request.getParameter("mi_name"));
-			movie.put("miYear", request.getParameter("mi_year"));
-			movie.put("miNational", request.getParameter("mi_national"));
-			movie.put("miVendor", request.getParameter("mi_vendor"));
-			movie.put("miDirector", request.getParameter("mi_director"));
-			request.setAttribute("msg", "등록이 실패 하였습니다.");
-			request.setAttribute("url", "/views/movie/insert/");
-			if (ms.insertMovie(movie)==1) {
-				request.setAttribute("msg", "등록이 성공 하였습니다.");
-				request.setAttribute("url", "/movie/list");
+			Map<String, String> movie = Command.getSingleMap(request);
+			String msg = "등록이 실패하였습니다.";
+			String url = "/views/movie/insert/.";
+			if (ms.insertMovie(movie) == 1) {
+				msg = "등록이 성공하였습니다.";
+				url = "/movie/list";
 			}
-			RequestDispatcher rd = request.getRequestDispatcher("/views/msg/result");
-			rd.forward(request, response);
+			Command.goResultPage(request, response, url, msg);
+		} else if ("delete".equals(cmd)) {
+			HttpSession hs = request.getSession();
+			if (hs.getAttribute("user") == null) {
+				Command.goResultPage(request, response, "/", "로그인하세요");
+				return;
+			}
+			int miNum = Integer.parseInt(request.getParameter("mi_num"));
+			String msg = "삭제에 실패 하였습니다.";
+			String url = "/movie/" + miNum;
+			if (ms.deleteMovie(miNum) == 1) {
+				msg = "삭제에 성공 하였습니다.";
+				url = "/movie/list";
+			}
+			Command.goResultPage(request, response, url, msg);
 		}
 	}
 }
