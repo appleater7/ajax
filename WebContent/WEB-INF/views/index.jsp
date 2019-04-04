@@ -8,6 +8,7 @@
 </head>
 <body>
 <a href="/movie/list">영화개봉리스트</a><br>
+<a href="/views/movie/ajax_list">Ajax리스트가기</a><br>
 <c:if test="${sessionScope.user==null}">
 <form method="post" action="/user">
 <table border="1">
@@ -34,6 +35,8 @@
 <input type="hidden" name="cmd" value="logout">
 <button>로그아웃</button>
 <a href="/views/list">리스트가기</a>
+
+
 </form>
 </c:if>
 </body>

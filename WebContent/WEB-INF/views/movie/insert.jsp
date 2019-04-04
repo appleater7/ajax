@@ -16,7 +16,7 @@
 </tr>
 <tr>
 	<th>연도</th>
-	<td><input type="number" name="mi_year" id="mi_year"></td>
+	<td><input type="text" name="mi_year" id="mi_year"></td>
 </tr>
 <tr>
 	<th>국가</th>

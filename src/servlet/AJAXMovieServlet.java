@@ -1,39 +1,40 @@
 package servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.google.gson.Gson;
+
 import service.MovieService;
 import service.Impl.MovieServiceImpl;
 import utils.Command;
 
-public class MovieServlet extends HttpServlet {
+public class AJAXMovieServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private MovieService ms = new MovieServiceImpl();
+	private Gson gson = new Gson();
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("text/html;charset=utf-8");
 		String cmd = Command.getCmd(request);
 		if ("list".equals(cmd)) {
-			request.setAttribute("list", ms.selectMovieList());
-			RequestDispatcher rd = request.getRequestDispatcher("/views/movie/movie_list");
-			rd.forward(request, response);
+			PrintWriter pw = response.getWriter();
+			pw.println(gson.toJson(ms.selectMovieList()));
 		} else {
 			try {
 				int miNum = Integer.parseInt(cmd);
-				System.out.println(miNum);
-				request.setAttribute("movie", ms.selectMovieByMiNum(miNum));
-				RequestDispatcher rd = request.getRequestDispatcher("/views/movie/view");
-				rd.forward(request, response);
+				PrintWriter pw = response.getWriter();
+				pw.println(gson.toJson(ms.selectMovieByMiNum(miNum)));
 			} catch (Exception e) {
 				throw new ServletException("올바른 상세조회 값이 아닙니다.");
 			}
@@ -51,13 +52,13 @@ public class MovieServlet extends HttpServlet {
 				return;
 			}
 			Map<String, String> movie = Command.getSingleMap(request);
-			String msg = "등록이 실패하였습니다.";
-			String url = "/views/movie/insert";
+			Map<String, String>	rMap = new HashMap<>();
+			rMap.put("msg", "등록이 실패하였습니다.");
+			rMap.put("url", "/views/movie/ajax_list");
 			if (ms.insertMovie(movie) == 1) {
-				msg = "등록이 성공하였습니다.";
-				url = "/movie/list";
+				rMap.put("msg", "등록이 성공하였습니다.");
+				Command.printJSON(response, rMap);
 			}
-			Command.goResultPage(request, response, url, msg);
 		} else if ("delete".equals(cmd)) {
 			HttpSession hs = request.getSession();
 			if (hs.getAttribute("user") == null) {
@@ -65,13 +66,13 @@ public class MovieServlet extends HttpServlet {
 				return;
 			}
 			int miNum = Integer.parseInt(request.getParameter("mi_num"));
-			String msg = "삭제에 실패 하였습니다.";
-			String url = "/movie/" + miNum;
+			Map<String, String> rMap = new HashMap<>();
+			rMap.put("msg", "삭제에 실패 하였습니다.");
+			rMap.put("url", "/views/movie/ajax_list");
 			if (ms.deleteMovie(miNum) == 1) {
-				msg = "삭제에 성공 하였습니다.";
-				url = "/movie/list";
+				rMap.put("msg", "삭제에 성공 하였습니다.");
 			}
-			Command.goResultPage(request, response, url, msg);
+			Command.printJSON(response, rMap);
 		}
 	}
 }

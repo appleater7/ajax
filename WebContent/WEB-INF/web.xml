@@ -36,6 +36,22 @@
     <servlet-name>MovieServlet</servlet-name>
     <url-pattern>/movie/*</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <servlet-name>AJAXMovieServlet</servlet-name>
+    <servlet-class>servlet.AJAXMovieServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AJAXMovieServlet</servlet-name>
+    <url-pattern>/am/*</url-pattern>
+  </servlet-mapping>
+   <servlet>
+    <servlet-name>FileServlet</servlet-name>
+    <servlet-class>servlet.FileServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FileServlet</servlet-name>
+    <url-pattern>/file/*</url-pattern>
+  </servlet-mapping>
   <jsp-config>
     <jsp-property-group>
       <url-pattern>*.jsp</url-pattern>
@@ -44,14 +60,14 @@
   </jsp-config>
   <filter>
     <filter-name>EncodingFilter</filter-name>
-  	<filter-class>filter.EncodingFilter</filter-class>
-  	<init-param>
-  		<param-name>encoding</param-name>
-  		<param-value>utf-8</param-value>
-  	</init-param>
+    <filter-class>filter.EncodingFilter</filter-class>
+    <init-param>
+      <param-name>encoding</param-name>
+      <param-value>utf-8</param-value>
+    </init-param>
   </filter>
   <filter-mapping>
-  	<filter-name>EncodingFilter</filter-name>
-  	<url-pattern>*</url-pattern>  
+    <filter-name>EncodingFilter</filter-name>
+    <url-pattern>*</url-pattern>
   </filter-mapping>
 </web-app>

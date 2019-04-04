@@ -30,12 +30,12 @@ public class MovieDAOImpl implements MovieDAO{
 			List<Map<String,String>> movieList = new ArrayList<>();
 			while (rs.next()) {
 				Map<String, String> movie = new HashMap<>();
-				movie.put("miNum", rs.getInt("mi_num") + "");
-				movie.put("miName", rs.getString("mi_name"));
-				movie.put("miYear", rs.getInt("mi_year") + "");
-				movie.put("miNational", rs.getString("mi_national").toUpperCase());
-				movie.put("miVendor", rs.getString("mi_vendor"));
-				movie.put("miDirector", rs.getString("mi_director"));
+				movie.put("mi_num", rs.getInt("mi_num") + "");
+				movie.put("mi_name", rs.getString("mi_name"));
+				movie.put("mi_year", rs.getString("mi_year"));
+				movie.put("mi_national", rs.getString("mi_national").toUpperCase());
+				movie.put("mi_vendor", rs.getString("mi_vendor"));
+				movie.put("mi_director", rs.getString("mi_director"));
 				movieList.add(movie);
 			}
 			return movieList;
@@ -50,11 +50,11 @@ public class MovieDAOImpl implements MovieDAO{
 	public int insertMovie(Map<String, String> movie) {
 		try {
 			PreparedStatement ps = DBCon.getCon().prepareStatement(insertMovie);
-			ps.setString(1, movie.get("miName"));
-			ps.setString(2, movie.get("miYear"));
-			ps.setString(3, movie.get("miNational"));
-			ps.setString(4, movie.get("miVendor"));
-			ps.setString(5, movie.get("miDirector"));
+			ps.setString(1, movie.get("mi_name"));
+			ps.setString(2, movie.get("mi_year"));
+			ps.setString(3, movie.get("mi_national"));
+			ps.setString(4, movie.get("mi_vendor"));
+			ps.setString(5, movie.get("mi_director"));
 			return ps.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -70,12 +70,12 @@ public class MovieDAOImpl implements MovieDAO{
 			ResultSet rs = ps.executeQuery();			
 			while (rs.next()) {
 				Map<String,String> movie = new HashMap<>();
-				movie.put("miNum", rs.getInt("mi_num") + "");
-				movie.put("miName", rs.getString("mi_name"));
-				movie.put("miYear", rs.getInt("mi_year") + "");
-				movie.put("miNational", rs.getString("mi_national").toUpperCase());
-				movie.put("miVendor", rs.getString("mi_vendor"));
-				movie.put("miDirector", rs.getString("mi_director"));
+				movie.put("mi_num", rs.getInt("mi_num") + "");
+				movie.put("mi_name", rs.getString("mi_name"));
+				movie.put("mi_year", rs.getString("mi_year"));
+				movie.put("mi_national", rs.getString("mi_national").toUpperCase());
+				movie.put("mi_vendor", rs.getString("mi_vendor"));
+				movie.put("mi_director", rs.getString("mi_director"));
 				return movie;
 			}			
 		} catch (SQLException e) {
