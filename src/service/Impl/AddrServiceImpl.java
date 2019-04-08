@@ -64,4 +64,19 @@ public class AddrServiceImpl implements AddrService {
 	public int selectTotalAddrCnt() {
 		return 0;
 	}
+	@Override
+	public void selectAddr(HttpServletRequest request) {
+		Map<String, String> paramMap = Command.getSingleMap(request);
+		int page = 1;
+		int pageCount = 10;
+		if (paramMap.get("page") != null) {
+			page = Integer.parseInt(paramMap.get("page"));
+		}
+		if (paramMap.get("pageCount") != null) {
+			pageCount = Integer.parseInt(paramMap.get("pageCount"));
+		}
+		request.setAttribute("page", page);
+		request.setAttribute("pageCount", pageCount);
+		request.setAttribute("addr", adao.selectAddr(paramMap));
+	}
 }

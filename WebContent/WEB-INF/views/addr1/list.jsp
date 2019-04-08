@@ -47,7 +47,7 @@ selected
 				<td>${addr.ad_num }</td>
 				<td>${addr.ad_sido }</td>
 				<td>${addr.ad_gugun }</td>
-				<td>${addr.ad_dong }</td>
+				<td><a href="/addr/view?page=1&pageCount=${pageCount}&ad_dong=${param.ad_dong}&ad_num=${param.ad_num }">${addr.ad_dong }</a></td>
 				<td>${addr.ad_lee }</td>
 				<td>${addr.ad_bunji }</td>
 				<td>${addr.ad_ho }</td>
@@ -55,27 +55,26 @@ selected
 		</c:forEach>
 		<tr>
 			<td colspan="7" align="center"><c:if test="${1!=page}">
-					<a href="/addr/list?page=1&pageCount=${pageCount}&ad_dong=${ad_dong}">◀</a>
+					<a href="/addr/list?page=1&pageCount=${pageCount}&ad_dong=${param.ad_dong}">◀</a>
 				</c:if> <c:if test="${page>=11}">
-					<a href="/addr/list?page=${page-10}&pageCount=${pageCount}&ad_dong=${ad_dong}">◁</a>
+					<a href="/addr/list?page=${page-10}&pageCount=${pageCount}&ad_dong=${param.ad_dong}">◁</a>
 				</c:if> <c:forEach var="p" begin="${fBlock}" end="${lBlock}">
 					<c:if test="${p==page}">
 						<b>[${p}]</b>
 					</c:if>
 					<c:if test="${p!=page}">
-						<a href="/addr/list?page=${p}&pageCount=${pageCount}&ad_dong=${ad_dong}">[${p}]</a>
+						<a href="/addr/list?page=${p}&pageCount=${pageCount}&ad_dong=${param.ad_dong}">[${p}]</a>
 					</c:if>
 				</c:forEach> <c:if test="${(totalPageCnt-10)>=page}">
-					<a href="/addr/list?page=${page+10}&pageCount=${pageCount}&ad_dong=${ad_dong}">▷</a>
+					<a href="/addr/list?page=${page+10}&pageCount=${pageCount}&ad_dong=${param.ad_dong}">▷</a>
 				</c:if> <c:if test="${totalPageCnt!=page}">
-					<a href="/addr/list?page=${totalPageCnt}&pageCount=${pageCount}&ad_dong=${ad_dong}">▶</a>
+					<a href="/addr/list?page=${totalPageCnt}&pageCount=${pageCount}&ad_dong=${param.ad_dong}">▶</a>
 				</c:if></td>
 		</tr>
 		<tr>
 			<td colspan="7" align="right">총 갯수 : ${totalCnt}</td>
 		</tr>
 	</table>
-
 	<script>
 		function changePageCount(obj) {
 			location.href = "/addr/list?page=${page}&pageCount=" + obj.value;

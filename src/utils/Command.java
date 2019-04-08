@@ -48,7 +48,7 @@ public class Command {
 			String value = map.get(key)[0];
 			pMap.put(key, value);
 		}
-		return pMap;		
+		return pMap;
 	}
 	
 	public static <T> void printJSON(HttpServletResponse response, T obj) throws IOException {
