@@ -47,7 +47,7 @@ selected
 				<td>${addr.ad_num }</td>
 				<td>${addr.ad_sido }</td>
 				<td>${addr.ad_gugun }</td>
-				<td><a href="/addr/view?page=1&pageCount=${pageCount}&ad_dong=${param.ad_dong}&ad_num=${param.ad_num }">${addr.ad_dong }</a></td>
+				<td><a href="/addr/view?page=${page}&pageCount=${pageCount}&ad_dong=${param.ad_dong}&ad_num=${addr.ad_num}">${addr.ad_dong }</a></td>
 				<td>${addr.ad_lee }</td>
 				<td>${addr.ad_bunji }</td>
 				<td>${addr.ad_ho }</td>

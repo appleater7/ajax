@@ -10,34 +10,38 @@
 	<table border="1">
 		<tr>
 			<th>번호</th>
-			<td>${ad_num}</td>
+			<td>${addr.ad_num}</td>
 		</tr>
 		<tr>
 			<th>시도</th>
-			<td>${ad_sido}</td>
+			<td>${addr.ad_sido}</td>
 		</tr>
 		<tr>
 			<th>구군</th>
-			<td>${ad_gugun}</td>
+			<td>${addr.ad_gugun}</td>
 		</tr>
 		<tr>
 			<th>동면읍</th>
-			<td>${ad_dong}</td>
+			<td>${addr.ad_dong}</td>
 		</tr>
 		<tr>
 			<th>리</th>
-			<td>${ad_lee}</td>
+			<td>${addr.ad_lee}</td>
 		</tr>
 		<tr>
 			<th>번지</th>
-			<td>${ad_bunji}</td>
+			<td>${addr.ad_bunji}</td>
 		</tr>
 		<tr>
 			<th>호수</th>
-			<td>${ad_ho}</td>
+			<td>${addr.ad_ho}</td>
 		</tr>
 	</table>
-	<button>리스트가기</button>
-	${addr}
+	<button onclick="goList()">리스트가기</button>
+	<script>
+	function goList() {
+		location.href="/addr/list?page=${page}&pageCount=${pageCount}&ad_dong=${param.ad_dong}";
+	}
+	</script>
 </body>
 </html>
