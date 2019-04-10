@@ -41,6 +41,7 @@ public class AddrDAOImpl implements AddrDAO {
 			while(rs.next()) {
 				Map<String,String> address = new HashMap<>();
 				address.put("ad_num", rs.getString("ad_num"));
+				address.put("ad_code", rs.getString("ad_code"));
 				address.put("ad_sido", rs.getString("ad_sido"));
 				address.put("ad_gugun", rs.getString("ad_gugun"));
 				address.put("ad_dong", rs.getString("ad_dong"));
@@ -88,8 +89,9 @@ public class AddrDAOImpl implements AddrDAO {
 			ps.setString(1, addr.get("ad_num"));		
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
-				Map<String,String> address = new HashMap<>();
+				Map<String,String> address = new HashMap<>();				
 				address.put("ad_num", rs.getString("ad_num"));
+				address.put("ad_code", rs.getString("ad_code"));
 				address.put("ad_sido", rs.getString("ad_sido"));
 				address.put("ad_gugun", rs.getString("ad_gugun"));
 				address.put("ad_dong", rs.getString("ad_dong"));
