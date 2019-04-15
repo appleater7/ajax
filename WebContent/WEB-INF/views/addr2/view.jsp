@@ -10,7 +10,7 @@
 	<table border="1" id="addrTable">
 		<tr>
 			<th>번호</th>
-			<td>${addr.ad_num}</td>
+			<td><input type="hidden" id="adNum" value="${addr.ad_num}">${addr.ad_num}</td>
 		</tr>
 		<tr>
 			<th>주소코드</th>
@@ -43,6 +43,7 @@
 		<tr>
 			<td colspan="2" align="center">
 			<button onclick="updateAddr()">수정</button>
+			<button onclick="deleteAddr('${addr.ad_num}')">삭제</button>
 			<button onclick="closeTable()">닫기</button></td>
 		</tr>
 	</table>	

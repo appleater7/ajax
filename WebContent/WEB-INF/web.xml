@@ -4,6 +4,11 @@
   <welcome-file-list>
     <welcome-file>/WEB-INF/views/index.jsp</welcome-file>
   </welcome-file-list>
+  <!-- 
+  <listener>
+  	<listener-class>listener.DaemonListener</listener-class>
+  </listener>
+   -->
   <servlet>
     <servlet-name>AjaxServlet</servlet-name>
     <servlet-class>servlet.AjaxServlet</servlet-class>
@@ -12,6 +17,7 @@
     <servlet-name>AjaxServlet</servlet-name>
     <url-pattern>/ajax/*</url-pattern>
   </servlet-mapping>
+  <!-- 
   <servlet>
     <servlet-name>ViewResolverServlet</servlet-name>
     <servlet-class>servlet.ViewResolverServlet</servlet-class>
@@ -20,6 +26,7 @@
     <servlet-name>ViewResolverServlet</servlet-name>
     <url-pattern>/views/*</url-pattern>
   </servlet-mapping>
+   -->
   <servlet>
     <servlet-name>UserServlet</servlet-name>
     <servlet-class>servlet.UserServlet</servlet-class>
@@ -78,7 +85,7 @@
     <servlet-name>AddrServlet1</servlet-name>
     <url-pattern>/addr/*</url-pattern>
   </servlet-mapping>
-   <servlet>
+  <servlet>
     <servlet-name>AddrServlet2</servlet-name>
     <servlet-class>servlet.AddrServlet2</servlet-class>
   </servlet>

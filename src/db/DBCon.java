@@ -28,15 +28,20 @@ public class DBCon {
 		DRIVER = prop.getProperty("driver");
 	}
 	public static Connection getCon() {
-		if (con == null) {
-			try {
-				Class.forName(DRIVER);
-				con = DriverManager.getConnection(URL, ID, PASSWORD);
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			} catch (SQLException e) {
-				e.printStackTrace();
+		try {
+			if (con == null || con.isClosed()) {
+				try {
+					Class.forName(DRIVER);
+					con = DriverManager.getConnection(URL, ID, PASSWORD);
+				} catch (ClassNotFoundException e) {
+					e.printStackTrace();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return con;
 	}

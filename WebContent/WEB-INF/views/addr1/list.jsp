@@ -7,6 +7,16 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<select name="ad_sido" id="selectAdSido" onchange=changeSelectSido();>
+	<c:forEach items="${asList}" var="sido">
+		<option value="${sido}">${sido}</option>
+	</c:forEach>
+	</select>
+		<select name="ad_gugun">
+	<c:forEach items="${agList}" var="gugun">
+		<option value="${gugun}">${gugun}</option>
+	</c:forEach>
+	</select>
 	<label for="ad_dong">읍면동 : </label>
 	<input type="text" name="ad_dong" id="ad_dong" value="${ad_dong}">
 	<button onclick="search()">검색</button>
@@ -79,6 +89,11 @@ selected
 		function changePageCount(obj) {
 			location.href = "/addr/list?page=${page}&pageCount=" + obj.value;
 		}
+		function changeSelectSido() {
+			var adSido = document.querySelector('#selectAdSido').value;
+			location.href = "/addr/list?adSido=" + adSido;	
+		}
+		
 		function search() {
 			var ad_dong = document.querySelector('#ad_dong').value;
 			location.href = "/addr/list?pageCount=${pageCount}&ad_dong="

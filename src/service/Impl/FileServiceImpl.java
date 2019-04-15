@@ -45,7 +45,10 @@ public class FileServiceImpl implements FileService {
 
 	@Override
 	public Map<String, String> insertAddrFromFile(File file) {
-		
+		Map<String,String> rMap = new HashMap<>();
+		int totalCnt = 0;
+		int targetCnt = 0;
+		Long sTime = System.currentTimeMillis();
 		List<String> colList = new ArrayList<>();
 		colList.add("ad_code");
 		colList.add("ad_sido");
@@ -61,11 +64,9 @@ public class FileServiceImpl implements FileService {
 		colList.add("ad_subnum");
 		colList.add("ad_jinum");
 		colList.add("ad_etc");		
-		try {
-			FileReader fr = new FileReader(file);
-			BufferedReader br = new BufferedReader(fr);
+		try (FileReader fr = new FileReader(file);
+			BufferedReader br = new BufferedReader(fr);){
 			String line = "";
-			int result = 0;
 			List<Map<String, String>> addrList = new ArrayList<>();
 			Map<String, String> addrMap = new HashMap<>();
 			while((line = br.readLine()) != null) {
@@ -75,24 +76,23 @@ public class FileServiceImpl implements FileService {
 					addrMap.put(colList.get(i), lines[i]);
 				}
 				addrList.add(addrMap);				
-				if(addrList.size() == 10000) {
-					Long subSTime = System.currentTimeMillis();
-					result += fdao.insertAddressList(addrList);
+				if(addrList.size()==10000) {
+					totalCnt += fdao.insertAddressList(addrList);
 					addrList.clear();
-					System.out.println("반영된 건수 : " + result);
-					System.out.println("10000개 insert 완료시간 : " + (System.currentTimeMillis() - subSTime));
+					targetCnt+=10000;
 				}
 			}
-			Long subSTime = System.currentTimeMillis();
-			result += fdao.insertAddressList(addrList);
+			totalCnt += fdao.insertAddressList(addrList);
+			targetCnt += addrList.size();
 			addrList.clear();
-			System.out.println("반영된 건수 : " + result);
-			System.out.println("10000개 insert 완료시간 : " + (+System.currentTimeMillis() - subSTime));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}		
-		return null;
+		rMap.put("targetCnt", targetCnt + "");
+		rMap.put("totalCnt", totalCnt + "");
+		rMap.put("executTime", (System.currentTimeMillis() - sTime)+"");
+		return rMap;
 	}
 }

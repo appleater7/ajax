@@ -1,9 +1,6 @@
 package servlet;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,8 +8,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.google.gson.Gson;
 
 import service.AddrService;
 import service.Impl.AddrServiceImpl;
@@ -34,6 +29,7 @@ public class AddrServlet2 extends HttpServlet {
 			rMap.put("blockCount", request.getAttribute("blockCount"));
 			rMap.put("ad_dong", request.getParameter("ad_dong"));
 			rMap.put("totalCnt", request.getAttribute("totalCnt"));
+			rMap.put("totalPageCnt", request.getAttribute("totalPageCnt"));
 			rMap.put("fBlock", request.getAttribute("fBlock"));
 			rMap.put("lBlock", request.getAttribute("lBlock"));
 			//Command.printJSON(response, as.selectAddrList(request));
@@ -45,8 +41,14 @@ public class AddrServlet2 extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Map<String, String> param = Command.fromJSON(request);
-		System.out.println(param);
+		String cmd = Command.getCmd(request);
+		if("update".equals(cmd)) {
+			Map<String,String> rMap = as.updateAddr2(request);
+			Command.printJSON(response, rMap);
+		}else if ("delete".equals(cmd)) {
+			Map<String,String> rMap = as.deleteAddr(request);
+			Command.printJSON(response, rMap);
+		}
 	}
 
 }

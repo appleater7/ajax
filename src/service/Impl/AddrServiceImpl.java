@@ -1,5 +1,7 @@
 package service.Impl;
 
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -58,6 +60,9 @@ public class AddrServiceImpl implements AddrService {
 		request.setAttribute("fBlock", fBlock);
 		request.setAttribute("lBlock", lBlock);	
 		request.setAttribute("totalPageCnt", totalPageCnt);	
+		List<String> asList = adao.selectAdSido();
+		request.setAttribute("asList", asList);
+		request.setAttribute("agList", adao.selectAdGugunList(asList.get(0)));
 		return addrList;
 	}
 	@Override
@@ -79,4 +84,39 @@ public class AddrServiceImpl implements AddrService {
 		request.setAttribute("pageCount", pageCount);
 		request.setAttribute("addr", adao.selectAddr(paramMap));
 	}
+	@Override
+	public int updateAddr(Map<String, String> param) {
+		
+		return adao.updateAddr(param);
+	}
+	
+	@Override
+	public Map<String, String> updateAddr2(HttpServletRequest request) throws IOException {
+		Map<String, String> addr = Command.fromJSON(request);
+		Map<String, String> rMap = new HashMap<>();
+		rMap.put("update", "false");
+		rMap.put("msg", "수정이 실패 하였습니다.");
+		if(adao.updateAddr(addr)==1) {
+			rMap.put("update", "true");
+			rMap.put("msg", "수정이 성공 하였습니다.");
+		}
+		return rMap;
+	}
+	@Override
+	public Map<String, String> deleteAddr(HttpServletRequest request) throws IOException {
+		Map<String, String> addr = Command.fromJSON(request);
+		Map<String, String> rMap = new HashMap<>();
+		rMap.put("delete", "false");
+		rMap.put("msg", "삭제가 실패 하였습니다.");
+		if(adao.deleteAddr(addr)==1) {
+			rMap.put("delete", "true");
+			rMap.put("msg", "삭제가 성공 하였습니다.");
+		}
+		return rMap;
+	}
+	@Override
+	public List<String> selectAdSido() {
+		return adao.selectAdSido();
+	}
+
 }

@@ -21,6 +21,7 @@ config.test = function() {
 config.test();
 config.toString = function(){
 	alert('나 출력하면 이제 이게 나옴');
+	alert(config.name);
 }
 
 var num1 = 1;
